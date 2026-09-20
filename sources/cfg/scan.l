@@ -140,7 +140,9 @@ SIZE_SUFFIX  [kK][bB]?|[mM][bB]?|[gG][bB]?|[bB]
 
 
 \"([^\"]|\\\")*\" {
-					assert(yyleng >= 2);
+					if (yyleng < 2) {
+						return ERROR_TOKEN;
+					}
 					size_t len = (size_t)yyleng - 2;
 
 					char *copy = od_cfg_unescape_string(yyextra,
