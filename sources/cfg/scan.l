@@ -14,6 +14,7 @@
 #include <odyssey.h>
 #include <cfg/parse.tab.h>
 #include <cfg/ctx.h>
+#include <cfg/reader.h>
 #include <cfg/keywords.h>
 }
 
@@ -188,5 +189,16 @@ SIZE_SUFFIX  [kK][bB]?|[mM][bB]?|[gG][bB]?|[bB]
 									  "unexpected character '%c'", yytext[0]);
 					return ERROR_TOKEN;
 				}
+
+<<EOF>> {
+	yylloc->filename = yyextra->filename;
+	yylloc->first_line = yylloc->last_line = yyextra->lexer_line;
+	yylloc->first_column = yylloc->last_column = yyextra->lexer_column;
+	yylloc->first_offset = yylloc->last_offset = yyextra->lexer_offset;
+	if (od_cfg_include_pop(yyextra, yyscanner)) {
+		return YY_NULL;
+	}
+	return INCLUDE_END;
+}
 
 %%
