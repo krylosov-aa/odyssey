@@ -563,6 +563,7 @@ static od_rule_t *od_rules_add(od_rules_t *rules)
 	rule->target_session_attrs = OD_TARGET_SESSION_ATTRS_UNDEF;
 
 	rule->auth_common_name_default = 0;
+	rule->auth_query_max_age_ms = 60 * 1000;
 	rule->auth_common_names_count = 0;
 	rule->server_lifetime_us = 3600 * 1000000L;
 	rule->server_drop_on_cached_plan_error = 1;
@@ -1437,6 +1438,10 @@ int od_rules_rule_compare(od_rule_t *a, od_rule_t *b)
 			return 0;
 		}
 	} else if (a->auth_query || b->auth_query) {
+		return 0;
+	}
+
+	if (a->auth_query_max_age_ms != b->auth_query_max_age_ms) {
 		return 0;
 	}
 
@@ -2605,6 +2610,9 @@ void od_rules_print(od_rules_t *rules, od_logger_t *logger)
 			od_log(logger, "rules", NULL, NULL,
 			       "  auth_query                        %s",
 			       rule->auth_query);
+			od_log(logger, "rules", NULL, NULL,
+			       "  auth_query_max_age                %" PRIu64,
+			       rule->auth_query_max_age_ms / 1000);
 		}
 		if (rule->auth_query_db) {
 			od_log(logger, "rules", NULL, NULL,

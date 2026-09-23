@@ -149,7 +149,42 @@ auth_query_db ""
 auth_query_user ""
 ```
 
+The query must return at most one row with two columns: username and password.
+No rows or a NULL password deny authentication. A successful refresh with either
+result replaces any previously cached password. SQL and connection errors keep
+the previous result only within `auth_query_max_age`.
+
+Results are cached separately for different frontend users and for queries
+whose `%h` values differ. Each route caches up to 64 results. Waiting for cache
+capacity and a usable result shares a 500 ms budget; authentication fails if no
+result becomes available.
+
+Cached results are refreshed on a later login after roughly 10–15 seconds, or
+sooner when `auth_query_max_age` is shorter. An unexpired cached result can be
+used while the refresh runs.
+
 Disabled by default.
+
+---
+
+## **auth\_query\_max\_age**
+
+*integer*
+
+Maximum age of a cached `auth_query` result, including negative results, in
+seconds since its successful retrieval. Defaults to `60`. Must be positive.
+
+After this limit, new logins must obtain a fresh result or fail authentication.
+Refresh errors do not extend the limit. Existing sessions are unaffected.
+
+The query must check login eligibility. A result obtained before `rolvaliduntil`
+can remain cached for up to this interval.
+
+Changes apply to new connections after a configuration reload.
+
+```
+auth_query_max_age 60
+```
 
 ---
 

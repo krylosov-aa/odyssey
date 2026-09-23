@@ -128,6 +128,7 @@ struct od_rule {
 	char *auth_query;
 	char *auth_query_db;
 	char *auth_query_user;
+	uint64_t auth_query_max_age_ms;
 	int auth_common_name_default;
 	od_list_t auth_common_names;
 	int auth_common_names_count;

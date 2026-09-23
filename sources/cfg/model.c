@@ -269,6 +269,7 @@ static void dump_user(FILE *file, const char *type, const od_cfg_route_t *user)
 	dump_string(file, "auth_query", 2, &user->auth_query);
 	dump_string(file, "auth_query_db", 2, &user->auth_query_db);
 	dump_string(file, "auth_query_user", 2, &user->auth_query_user);
+	dump_int(file, "auth_query_max_age", 2, &user->auth_query_max_age);
 	dump_bool(file, "password_passthrough", 2, &user->password_passthrough);
 	dump_string(file, "password", 2, &user->password);
 	dump_string(file, "role", 2, &user->role);
@@ -764,6 +765,7 @@ static void od_cfg_user_route_free(od_cfg_route_t *user)
 	od_cfg_string_field_free(&user->auth_query);
 	od_cfg_string_field_free(&user->auth_query_db);
 	od_cfg_string_field_free(&user->auth_query_user);
+	od_cfg_int_field_free(&user->auth_query_max_age);
 	od_cfg_bool_field_free(&user->password_passthrough);
 	od_cfg_string_field_free(&user->password);
 	od_cfg_string_field_free(&user->role);

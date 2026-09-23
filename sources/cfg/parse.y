@@ -267,6 +267,7 @@
 %token AUTH_QUERY "auth_query"
 %token AUTH_QUERY_DB "auth_query_db"
 %token AUTH_QUERY_USER "auth_query_user"
+%token AUTH_QUERY_MAX_AGE "auth_query_max_age"
 %token PASSWORD_PASSTHROUGH "password_passthrough"
 %token PASSWORD "password"
 %token ROLE "role"
@@ -1271,6 +1272,16 @@ route_item:
 							  @1,
 							  "auth_query_user");
 			$2 = NULL;
+		}
+	| AUTH_QUERY_MAX_AGE int_value
+		{
+			od_cfg_set_int_range_from_i64(ctx->diags,
+							&ctx->current_user->auth_query_max_age,
+							$2,
+							1,
+							INT_MAX,
+							@1,
+							"auth_query_max_age");
 		}
 	| PASSWORD_PASSTHROUGH bool_value
 		{

@@ -146,6 +146,7 @@ static const od_cfg_keyword_t keywords[] = {
 	{ "auth_query", AUTH_QUERY },
 	{ "auth_query_db", AUTH_QUERY_DB },
 	{ "auth_query_user", AUTH_QUERY_USER },
+	{ "auth_query_max_age", AUTH_QUERY_MAX_AGE },
 	{ "password_passthrough", PASSWORD_PASSTHROUGH },
 	{ "password", PASSWORD },
 	{ "role", ROLE },

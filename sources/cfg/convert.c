@@ -703,6 +703,10 @@ static int convert_rule_settings(const od_cfg_route_t *cfg, od_list_t *spools,
 	COPY_STR(cfg->auth_query, rule->auth_query, diags);
 	COPY_STR(cfg->auth_query_db, rule->auth_query_db, diags);
 	COPY_STR(cfg->auth_query_user, rule->auth_query_user, diags);
+	if (cfg->auth_query_max_age.seen.is_set) {
+		rule->auth_query_max_age_ms =
+			(uint64_t)cfg->auth_query_max_age.value * 1000;
+	}
 	COPY_BOOL(cfg->password_passthrough, rule->enable_password_passthrough);
 	COPY_STR(cfg->password, rule->password, diags);
 	if (rule->password != NULL) {

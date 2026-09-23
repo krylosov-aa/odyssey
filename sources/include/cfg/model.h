@@ -340,6 +340,7 @@ struct od_cfg_route {
 	od_cfg_string_field_t auth_query;
 	od_cfg_string_field_t auth_query_db;
 	od_cfg_string_field_t auth_query_user;
+	od_cfg_int_field_t auth_query_max_age;
 	od_cfg_bool_field_t password_passthrough;
 	od_cfg_string_field_t password;
 	od_cfg_string_field_t role;
